@@ -1,1 +1,16 @@
 just testing something...nothing 2 see here.....
+
+with large comment:
+leanne@issadevice:~/texteditorinC$ time cc -o kilo kilo.c
+
+real	0m0.431s
+user	0m0.281s
+sys	0m0.054s
+leanne@issadevice:~/texteditorinC$ vi kilo.c
+without large comment:
+leanne@issadevice:~/texteditorinC$ time cc -o kilo kilo.c
+
+real	0m0.336s
+user	0m0.289s
+sys	0m0.039s
+
