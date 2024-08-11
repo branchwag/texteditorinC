@@ -8,6 +8,8 @@
 #include <termios.h>
 #include <unistd.h>
 
+/*** THIS IS A BIG COMMENT FOR TESTING THE COMPILE TIME. ONCE UPON A TIME I TURNED ON THE CAPS LOCK KEY. I WAS THEN HOPELESSLY TRAPPED IN A WORLD OF VERY ANGRY LETTERS. THEY SCREAMED, THEY PANICKED, AND EVERYONE THOUGHT I WAS ANGRY ALL OF THE TIME. IN SHORT, IT WAS AWFUL. THEN, ONE DAY AS MY FINGERS WERE TYPING ALONG, I HIT THAT FATED KEY AGAIN AND ALAS, I WAS FREE FROM MY TORMENT! MY LETTERS WERE CALMED AND I COULD ONCE AGAIN TYPE IN NORMAL CASE. SO READERS, BEWARE OF THIS ASCURSED KEY AND KNOW THAT WITH GREAT POWER COMES GREAT RESPONSIBILITY. ***/ 
+
 /***defines ***/
 #define CTRL_KEY(k) ((k) & 0x1f)
 
@@ -115,26 +117,20 @@ void editorDrawRows(struct abuf *ab) {
   int y;
   for (y = 0; y < E.screenrows; y++) {
     abAppend(ab, "~", 1);
-    //write(STDOUT_FILENO, "~", 1);
-
+   
+    abAppend(ab, "\x1b[K", 3);
     if (y < E.screenrows - 1) {
       abAppend(ab, "\r\n", 2);
-      // write(STDOUT_FILENO, "\r\n", 2);
     }
   }
 }
 
 
 void editorRefreshScreen() {
-  //write(STDOUT_FILENO, "\x1b[2J", 4);
-  //write(STDOUT_FILENO, "\x1b[H", 3);
-  //editorDrawRows();
-  //write(STDOUT_FILENO, "\x1b[H", 3);
 
   struct abuf ab = ABUF_INIT;
   
   abAppend(&ab, "\x1b[?25l", 6);
-  abAppend(&ab, "\x1b[2J", 4);
   abAppend(&ab, "\x1b[H", 3);
 
   editorDrawRows(&ab);
