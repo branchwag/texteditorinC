@@ -257,7 +257,7 @@ void editorScroll(){
   E.rx = 0;
   if (E.cy < E.numrows) {
     E.rx = editorRowCxToRx(&E.row[E.cy], E.cx);
-  }
+    }
 
   if (E.cy < E.rowoff) {
     E.rowoff = E.cy;
@@ -301,10 +301,8 @@ void editorDrawRows(struct abuf *ab) {
     }
    
     abAppend(ab, "\x1b[K", 3);
-    if (y < E.screenrows - 1) {
       abAppend(ab, "\r\n", 2);
     }
-  }
 }
 
 
@@ -382,22 +380,32 @@ void editorProcessKeypress() {
     case HOME_KEY:
       E.cx = 0;
       break;
+
     case END_KEY:
-      E.cx = E.screencols -1;
+      if (E.cy < E.numrows)
+        E.cx = E.screencols -1;
       break;
+
     case PAGE_UP:
     case PAGE_DOWN:
-      {
+      { if (c == PAGE_UP) {
+        E.cy = E.rowoff;
+        } else if (c == PAGE_DOWN) {
+          E.cy = E.rowoff + E.screenrows - 1;
+          if (E.cy > E.numrows) E.cy = E.numrows;
+        }
+
         int times = E.screenrows;
         while (times --)
           editorMoveCursor(c == PAGE_UP ? ARROW_UP : ARROW_DOWN);
       }
       break;
+
     case ARROW_UP:
     case ARROW_DOWN:
     case ARROW_LEFT:
     case ARROW_RIGHT:
-    editorMoveCursor(c);
+      editorMoveCursor(c);
     break;
   }
 }
@@ -414,6 +422,7 @@ void initEditor() {
   E.row = NULL;
 
   if(getWindowSize(&E.screenrows, &E.screencols) == -1) die("getWindowSize");
+  E.screenrows -= 1;
 }
 
 int main(int argc, char *argv[]) {
