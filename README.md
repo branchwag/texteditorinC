@@ -12,4 +12,4 @@ Usage:
 
 Currently you can press ctrl + q to exit kilo
 
-Placeholder: currently at ch5
+Placeholder: currently at ch6
