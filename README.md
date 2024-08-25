@@ -10,6 +10,5 @@ Usage:
 ./kilo [filename]
 ```
 
-Currently you can press ctrl + q to exit kilo
+Press ctrl + q to exit kilo.
 
-Placeholder: currently at ch7
